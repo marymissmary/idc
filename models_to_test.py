@@ -77,3 +77,25 @@ def mnist_cnn(x_train,y_train,x_test,y_test,batch_size=128,epochs=10):
 	history = model.fit(x_train, y_train,batch_size=batch_size,verbose=1,epochs=epochs,validation_data=(x_test, y_test),callbacks = [ut.MetricsCheckpoint('logs')])
 	return model,history
 
+def vgg16(x_train,y_train,x_test,y_test,batch_size=128,epochs=10):
+	"""
+	Trying to recreate the vgg16 architecture and train with our data
+	"""
+	num_classes = 2
+	img_rows, img_cols = x_train.shape[1],x_train.shape[2]
+	input_shape = (img_rows, img_cols, 3)
+	logging.debug("Input data shape: "+str(input_shape))
+	model = Sequential()
+	model.add(Conv2D(32, kernel_size=(3, 3),activation='relu',input_shape=input_shape))
+	model.add(Conv2D(64, (3, 3), activation='relu'))
+	model.add(MaxPooling2D(pool_size=(2, 2)))
+	model.add(Dropout(0.25))
+	model.add(Flatten())
+	model.add(Dense(128, activation='relu'))
+	model.add(Dropout(0.5))
+	model.add(Dense(num_classes, activation='softmax'))
+	logging.info(str(model.summary()))
+	model.compile(loss=keras.losses.categorical_crossentropy,optimizer=keras.optimizers.Adadelta(),metrics=['accuracy'])
+	history = model.fit(x_train, y_train,batch_size=batch_size,verbose=1,epochs=epochs,validation_data=(x_test, y_test),callbacks = [ut.MetricsCheckpoint('logs')])
+	return model,history
+

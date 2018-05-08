@@ -2,15 +2,16 @@ import argparse
 import logging
 
 parser = argparse.ArgumentParser(description="Running CNN")
-parser.add_argument("-b","--break",dest="tobreak",action="store",help="Set to 'True' for debugging (using subset of data)",default=False)
+parser.add_argument("-b","--break",dest="tobreak",action="store_true",help="Set to 'True' for debugging (using subset of data)",default=False)
 parser.add_argument("-s","--savedir",dest="save_dir",action="store",help="Directory to save results",required=True)
 parser.add_argument("-e","--epochs",dest="epochs",action="store",help="Number of epochs to run",required=True)
-parser.add_argument("-m","--model_name",dest="model_name",action="store",help="Name of CNN model to use",required=True)
+parser.add_argument("-m","--model_name",dest="model_name",action="store",help="Name of CNN model to use ('mnist','too_simple')",required=True)
 args=parser.parse_args()
 
 ## set up logging
 FORMAT = "[%(funcName)10s():%(levelname)s] %(message)s"
-logging.basicConfig(level=logging.DEBUG,format=FORMAT,datefmt='%Y-%m-%d %H:%M:%S')
+logging.basicConfig(level=logging.INFO,format=FORMAT,datefmt='%Y-%m-%d %H:%M:%S')
+#logging.basicConfig(level=logging.DEBUG,format=FORMAT,datefmt='%Y-%m-%d %H:%M:%S')
 ## we want our scripts to be at debug level, but python libraries to be more quiet.
 logging.getLogger('matplotlib').setLevel(logging.ERROR)
 logging.getLogger('tensorflow').setLevel(logging.ERROR)
@@ -58,8 +59,8 @@ import utilities as ut
 import models_to_test as mtt
 
 
-logging.info("Running "+args.model_name)
-if args.tobreak:
+logging.info("Running model: '"+args.model_name+"'")
+if args.tobreak == True:
 	logging.warning("Only using a small subset of data!")
 logging.info("Number of epochs: "+args.epochs)
 logging.info("Saving output to: "+args.save_dir)
