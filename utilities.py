@@ -41,7 +41,7 @@ def plot_learning_curves(history,OutDir,figID=200):
 		c = next(cs)
 		xvals = np.arange(1,len(history[quantity])+1)
 		l = np.array(history[quantity])
-		plt.plot(xvals,l,lw=2,c=c,label=display_name)
+		plt.plot(xvals,l,'-o',lw=2,c=c,label=display_name)
 	plt.legend(loc=9, bbox_to_anchor=(0.5, -0.2), ncol=2)
 	plt.grid()
 	plt.xlabel("Epoch number")
@@ -118,7 +118,7 @@ def get_input(tobreak=False):
 			X = np.append(X,Xtmp,axis=0)
 			Y = np.append(Y,Ytmp,axis=0)
 			logging.debug("				Number of images in "+f+": "+str(len(Ytmp)))
-			if tobreak:
+			if tobreak == True:
 				if n_images[1] > 500:
 					logging.warning("Breaking early")
 					break

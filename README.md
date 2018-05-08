@@ -1,1 +1,3 @@
-working directory of files for CNN
+
+
+Starting to experiment with CNNs...more to come.
